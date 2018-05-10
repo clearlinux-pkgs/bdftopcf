@@ -6,7 +6,7 @@
 #
 Name     : bdftopcf
 Version  : 1.1
-Release  : 3
+Release  : 4
 URL      : https://xorg.freedesktop.org/archive/individual/app/bdftopcf-1.1.tar.bz2
 Source0  : https://xorg.freedesktop.org/archive/individual/app/bdftopcf-1.1.tar.bz2
 Source99 : https://xorg.freedesktop.org/archive/individual/app/bdftopcf-1.1.tar.bz2.sig
