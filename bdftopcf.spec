@@ -6,7 +6,7 @@
 #
 Name     : bdftopcf
 Version  : 1.1
-Release  : 4
+Release  : 5
 URL      : https://xorg.freedesktop.org/archive/individual/app/bdftopcf-1.1.tar.bz2
 Source0  : https://xorg.freedesktop.org/archive/individual/app/bdftopcf-1.1.tar.bz2
 Source99 : https://xorg.freedesktop.org/archive/individual/app/bdftopcf-1.1.tar.bz2.sig
@@ -15,9 +15,8 @@ Group    : Development/Tools
 License  : MIT-Opengroup
 Requires: bdftopcf-bin
 Requires: bdftopcf-doc
-BuildRequires : fontsproto-dev
 BuildRequires : pkgconfig(xorg-macros)
-BuildRequires : xproto-dev
+BuildRequires : xorgproto-dev
 
 %description
 bdftopcf is a font compiler for the X server and font server.  Fonts
@@ -51,9 +50,9 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1510235643
+export SOURCE_DATE_EPOCH=1526134347
 %configure --disable-static
-make V=1  %{?_smp_mflags}
+make  %{?_smp_mflags}
 
 %check
 export LANG=C
@@ -63,7 +62,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1510235643
+export SOURCE_DATE_EPOCH=1526134347
 rm -rf %{buildroot}
 %make_install
 
