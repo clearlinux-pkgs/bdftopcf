@@ -6,17 +6,19 @@
 #
 Name     : bdftopcf
 Version  : 1.1
-Release  : 5
+Release  : 6
 URL      : https://xorg.freedesktop.org/archive/individual/app/bdftopcf-1.1.tar.bz2
 Source0  : https://xorg.freedesktop.org/archive/individual/app/bdftopcf-1.1.tar.bz2
 Source99 : https://xorg.freedesktop.org/archive/individual/app/bdftopcf-1.1.tar.bz2.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : MIT-Opengroup
-Requires: bdftopcf-bin
-Requires: bdftopcf-doc
+Requires: bdftopcf-bin = %{version}-%{release}
+Requires: bdftopcf-license = %{version}-%{release}
+Requires: bdftopcf-man = %{version}-%{release}
 BuildRequires : pkgconfig(xorg-macros)
 BuildRequires : xorgproto-dev
+Patch1: CVE-2017-16611.patch
 
 %description
 bdftopcf is a font compiler for the X server and font server.  Fonts
@@ -29,28 +31,43 @@ slowly) on other machines.
 %package bin
 Summary: bin components for the bdftopcf package.
 Group: Binaries
+Requires: bdftopcf-license = %{version}-%{release}
 
 %description bin
 bin components for the bdftopcf package.
 
 
-%package doc
-Summary: doc components for the bdftopcf package.
-Group: Documentation
+%package license
+Summary: license components for the bdftopcf package.
+Group: Default
 
-%description doc
-doc components for the bdftopcf package.
+%description license
+license components for the bdftopcf package.
+
+
+%package man
+Summary: man components for the bdftopcf package.
+Group: Default
+
+%description man
+man components for the bdftopcf package.
 
 
 %prep
 %setup -q -n bdftopcf-1.1
+%patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1526134347
+export SOURCE_DATE_EPOCH=1554503959
+export LDFLAGS="${LDFLAGS} -fno-lto"
+export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 %configure --disable-static
 make  %{?_smp_mflags}
 
@@ -62,8 +79,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1526134347
+export SOURCE_DATE_EPOCH=1554503959
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/bdftopcf
+cp COPYING %{buildroot}/usr/share/package-licenses/bdftopcf/COPYING
 %make_install
 
 %files
@@ -73,6 +92,10 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 /usr/bin/bdftopcf
 
-%files doc
-%defattr(-,root,root,-)
-%doc /usr/share/man/man1/*
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/bdftopcf/COPYING
+
+%files man
+%defattr(0644,root,root,0755)
+/usr/share/man/man1/bdftopcf.1

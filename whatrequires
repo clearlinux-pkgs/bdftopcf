@@ -1,4 +1,3 @@
 # This file contains recursive sources that require this package
-font-adobe-100dpi
-font-adobe-75dpi
 terminus-font
+xorg-fonts
