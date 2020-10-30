@@ -6,10 +6,10 @@
 #
 Name     : bdftopcf
 Version  : 1.1
-Release  : 8
+Release  : 9
 URL      : https://xorg.freedesktop.org/archive/individual/app/bdftopcf-1.1.tar.bz2
 Source0  : https://xorg.freedesktop.org/archive/individual/app/bdftopcf-1.1.tar.bz2
-Source99 : https://xorg.freedesktop.org/archive/individual/app/bdftopcf-1.1.tar.bz2.sig
+Source1  : https://xorg.freedesktop.org/archive/individual/app/bdftopcf-1.1.tar.bz2.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : MIT-Opengroup
@@ -55,36 +55,38 @@ man components for the bdftopcf package.
 
 %prep
 %setup -q -n bdftopcf-1.1
+cd %{_builddir}/bdftopcf-1.1
 %patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1557081859
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1604080235
+export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
-export FCFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
-export FFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
-export CXXFLAGS="$CXXFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
 %configure --disable-static
 make  %{?_smp_mflags}
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check
+make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1557081859
+export SOURCE_DATE_EPOCH=1604080235
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/bdftopcf
-cp COPYING %{buildroot}/usr/share/package-licenses/bdftopcf/COPYING
+cp %{_builddir}/bdftopcf-1.1/COPYING %{buildroot}/usr/share/package-licenses/bdftopcf/e5c8cfa671937e8d8404ee35da75ab5390816600
 %make_install
 
 %files
@@ -96,7 +98,7 @@ cp COPYING %{buildroot}/usr/share/package-licenses/bdftopcf/COPYING
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/bdftopcf/COPYING
+/usr/share/package-licenses/bdftopcf/e5c8cfa671937e8d8404ee35da75ab5390816600
 
 %files man
 %defattr(0644,root,root,0755)
