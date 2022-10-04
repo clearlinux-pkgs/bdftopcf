@@ -6,7 +6,7 @@
 #
 Name     : bdftopcf
 Version  : 1.1
-Release  : 10
+Release  : 11
 URL      : https://xorg.freedesktop.org/archive/individual/app/bdftopcf-1.1.tar.bz2
 Source0  : https://xorg.freedesktop.org/archive/individual/app/bdftopcf-1.1.tar.bz2
 Source1  : https://xorg.freedesktop.org/archive/individual/app/bdftopcf-1.1.tar.bz2.sig
@@ -63,15 +63,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1604080235
+export SOURCE_DATE_EPOCH=1664888512
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -fzero-call-used-regs=used "
-export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -fzero-call-used-regs=used "
-export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -fzero-call-used-regs=used "
-export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -fzero-call-used-regs=used "
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=auto -fstack-protector-strong -fzero-call-used-regs=used "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto -fstack-protector-strong -fzero-call-used-regs=used "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto -fstack-protector-strong -fzero-call-used-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto -fstack-protector-strong -fzero-call-used-regs=used "
 %configure --disable-static
 make  %{?_smp_mflags}
 
@@ -83,10 +83,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1604080235
+export SOURCE_DATE_EPOCH=1664888512
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/bdftopcf
-cp %{_builddir}/bdftopcf-1.1/COPYING %{buildroot}/usr/share/package-licenses/bdftopcf/e5c8cfa671937e8d8404ee35da75ab5390816600
+cp %{_builddir}/bdftopcf-%{version}/COPYING %{buildroot}/usr/share/package-licenses/bdftopcf/e5c8cfa671937e8d8404ee35da75ab5390816600 || :
 %make_install
 
 %files
